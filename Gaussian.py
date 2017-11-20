@@ -10,8 +10,9 @@ P(E) - Prior probability that the evidence itself is true.
 P(E/H) - Likelihood of the evidence 'E' if the Hypothesis 'H' is true.
 '''
 
-import pandas as pd
 from Classifier import classify_play
+from Classifier import create_database
 
 if __name__ == '__main__':
+    create_database()
     print(classify_play())

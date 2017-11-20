@@ -1,7 +1,13 @@
 from database.table import get_all_records_count
-from database.table import get_all_yes_records_count
-from database.table import get_all_rainy_records
-from database.table import get_all_yes_for_rainy_count
+from database.table import get_all_match_records_count
+from database.table import get_all_weather_records
+from database.table import get_all_match_for_weather_count
+from enums.weather import WeatherCondition
+from enums.weather import Play
+from database.table import is_file_exists
+from database.table import create_database_connection
+from database.utils import delete_database
+from database.constant import db_name
 
 ''''
 Formula of naive bayes
@@ -23,15 +29,24 @@ P(E/H) - Likelihood of the evidence 'E' if the Hypothesis 'H' is true.
 
 
 def classify_play():
-    print('get_all_yes_records_count().fetchone()[0]' + str(get_all_yes_records_count().fetchone()[0]))
-    print('get_all_records_count().fetchone()[0]' + str(get_all_records_count().fetchone()[0]))
-    print('get_all_rainy_records() ' + str(get_all_rainy_records().fetchone()[0]))
-    print('get_all_yes_for_rainy_count()' + str(get_all_yes_for_rainy_count().fetchone()[0]))
-
-    yes = get_all_yes_records_count().fetchone()[0] / get_all_records_count().fetchone()[0]
-    rainy = get_all_rainy_records().fetchone()[0] / get_all_records_count().fetchone()[0]
-    ry = get_all_yes_for_rainy_count().fetchone()[0] / get_all_yes_records_count().fetchone()[0]
+    yes = get_all_match_records_count(Play.yes.value) / get_all_records_count()
+    rainy = get_all_weather_records(WeatherCondition.rainy.value) / get_all_records_count()
+    ry = get_all_match_for_weather_count(Play.yes.value, WeatherCondition.rainy.value) / \
+         get_all_match_records_count(Play.yes.value)
     print('yes' + str(yes))
     print('rainy' + str(rainy))
     print('yes/rainy' + str(ry))
     return (ry * yes) / rainy
+
+
+'''
+Create database connection before modeling
+'''
+
+
+def create_database():
+    try:
+        delete_database()
+        create_database_connection(db_name)
+    except:
+        create_database_connection(db_name)

@@ -1,11 +1,18 @@
+'''
+This class will take care of all Database related queries which used to classify naive bayes
+algorithm.
+
+
+'''
+
 import sqlite3
 from sqlite3 import Error
 import pandas as pd
 import os
 from database.constant import db_name
-from database.utils import delete_database
+from database.constant import db_name
 
-df = pd.read_csv('/Users/jiteshmohite/projects/2017-2018/AI/algo/Naive-Bayes-Examples/database/weather.csv')
+df = pd.read_csv('weather.csv')
 
 """ 
 create a database connection to a SQLite database 
@@ -13,7 +20,7 @@ create a database connection to a SQLite database
 
 
 def get_connection():
-    return sqlite3.connect("/Users/jiteshmohite/projects/2017-2018/AI/algo/Naive-Bayes-Examples/database/weather_report.db")
+    return sqlite3.connect(db_name)
 
 
 def create_database_connection(db_file):
@@ -48,34 +55,35 @@ Get the count of all records.
 
 
 def get_all_records_count():
-    return get_connection().execute("SELECT COUNT(*) FROM weather")
+    return get_connection().execute("SELECT COUNT(*) FROM weather").fetchone()[0]
 
 
 ''''
-Get the count of all yes records.
+Get the count of all match count eg : yes/no.
 '''
 
 
-def get_all_yes_records_count():
-    return get_connection().execute("SELECT COUNT(*) from weather WHERE PLAY = 0")
+def get_all_match_records_count(play):
+    return get_connection().execute("SELECT COUNT(*) from weather WHERE PLAY = " + str(play)).fetchone()[0]
 
 
 ''''
-Get all the rainy records.
+Get all the given weather records.
 '''
 
 
-def get_all_rainy_records():
-    return get_connection().execute("SELECT COUNT(*) from weather WHERE Weather = 2")
+def get_all_weather_records(weather):
+    return get_connection().execute("SELECT COUNT(*) from weather WHERE Weather = " + str(weather)).fetchone()[0]
 
 
 ''''
-Get all yes records for rainy
+Get all match records count count, based on the play happed or not and weather condition 
 '''
 
 
-def get_all_yes_for_rainy_count():
-    return get_connection().execute("SELECT COUNT(*) from weather WHERE Weather = 2 AND Play = 0")
+def get_all_match_for_weather_count(play, weather):
+    return get_connection().execute(
+        "SELECT COUNT(*) from weather WHERE Weather = " + str(weather) + " AND Play = " + str(play)).fetchone()[0]
 
 
 if __name__ == '__main__':
