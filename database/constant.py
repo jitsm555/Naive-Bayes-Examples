@@ -1,1 +1,1 @@
-db_name = 'weather_report'
+db_name = 'weather_report.db'

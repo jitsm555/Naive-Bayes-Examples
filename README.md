@@ -8,5 +8,5 @@ Naive bayes .csv format
     b. Overcast - 1
     c. Rainy - 2
 2. Play
-    a. yes - 0
-    b. no - 1
+    a. yes - 1
+    b. no - 0

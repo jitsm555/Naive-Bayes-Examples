@@ -9,9 +9,7 @@ import sqlite3
 from sqlite3 import Error
 import pandas as pd
 import os
-from database.constant import db_name
-from database.constant import db_name
-
+from database.utils import get_database_file_path
 df = pd.read_csv('weather.csv')
 
 """ 
@@ -20,12 +18,11 @@ create a database connection to a SQLite database
 
 
 def get_connection():
-    return sqlite3.connect(db_name)
+    return sqlite3.connect(get_database_file_path())
 
 
 def create_database_connection(db_file):
     try:
-        print(sqlite3.version)
         conn = sqlite3.connect(db_file)
         conn.execute("CREATE TABLE if not exists Data (Column1 TEXT, Column2 TEXT)")
         df.to_sql("weather", conn, if_exists='append', index=False)
@@ -84,8 +81,3 @@ Get all match records count count, based on the play happed or not and weather c
 def get_all_match_for_weather_count(play, weather):
     return get_connection().execute(
         "SELECT COUNT(*) from weather WHERE Weather = " + str(weather) + " AND Play = " + str(play)).fetchone()[0]
-
-
-if __name__ == '__main__':
-    create_database_connection(db_name + '.db')
-    # delete_database()

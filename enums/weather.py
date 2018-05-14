@@ -17,5 +17,21 @@ Check whether play happend or not
 
 
 class Play(enum.Enum):
-    yes = 0
-    no = 1
+    yes = 1
+    no = 0
+
+
+def get_weather_condition_string(enum):
+    if enum == 0:
+        return 'Sunny'
+    elif enum == 1:
+        return 'Overcast'
+    else:
+        return 'Rainy'
+
+
+def get_play_condition_string(enum):
+    if enum == 0:
+        return 'Yes'
+    else:
+        return 'No'
