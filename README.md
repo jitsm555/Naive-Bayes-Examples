@@ -10,3 +10,8 @@ Naive bayes .csv format
 2. Play
     a. yes - 1
     b. no - 0
+    
+       
+#Blog
+
+[Introduction To Naive Bayes](https://medium.com/@jiteshmohite.619/introduction-to-naive-bayes-29c9c6c061b8)
